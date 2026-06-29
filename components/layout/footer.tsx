@@ -3,112 +3,144 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { LuGithub, LuLock, LuTerminal } from "react-icons/lu";
-import { CgArrowRight } from "react-icons/cg";
+import { LuGithub, LuLock, LuTerminal, LuArrowUpRight } from "react-icons/lu";
 
 export default function Footer() {
-  const resourceLinks = [
-    { name: "./github_repos", href: "/repos" },
-    { name: "./whitepapers", href: "/whitepapers" },
-    { name: "./incident_report", href: "/incident-report" },
-  ];
+    const resourceLinks = [
+        { name: "GitHub Repos", href: "/repos" },
+        { name: "Whitepapers", href: "/whitepapers" },
+        { name: "Incident Reports", href: "/incident-report" },
+    ];
 
-  return (
-    <footer className="bg-[#0f0f12] px-6 py-16 border-[#22222b]/40 border-t w-full font-mono text-[#8a8a93]">
-      <div className="items-start gap-12 md:gap-6 grid grid-cols-1 md:grid-cols-12 mx-auto max-w-7xl">
-        {/* Left Column: Brand & Description */}
-        <div className="space-y-6 md:col-span-4">
-          <div className="flex items-center gap-2">
-            <Image
-              src="/logo.png"
-              alt="CCP Logo"
-              className="opacity-90 invert"
-              width={20}
-              height={20}
-            />
-            <span className="font-bold text-[#f8f9fa] text-sm uppercase tracking-wider">
-              CCP
-            </span>
-          </div>
+    const communityLinks = [
+        { name: "Events", href: "/events" },
+        { name: "Community", href: "/community" },
+        { name: "About", href: "/about" },
+    ];
 
-          <p className="opacity-80 max-w-xs font-normal text-xs leading-relaxed">
-            Pakistan&apos;s premier cybersecurity community dedicated to fostering
-            innovation, security awareness, and technical expertise across the
-            digital landscape.
-          </p>
+    return (
+        <footer className="bg-black border-t border-white/5 px-6 py-12 md:py-16 w-full font-mono">
+            <div className="mx-auto max-w-7xl">
+                <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12">
+                    {/* Brand Column */}
+                    <div className="md:col-span-4 space-y-4">
+                        <Link href="/" className="flex items-center gap-3 group">
+                            <div className="relative flex items-center justify-center w-10 h-10">
+                                <div className="absolute inset-0 border border-white/10 rounded-full group-hover:border-white/30 transition-all duration-300"></div>
+                                <Image
+                                    src="/logo.png"
+                                    alt="Cyber Community Pakistan"
+                                    className="invert drop-shadow-lg"
+                                    width={32}
+                                    height={32}
+                                    priority
+                                    style={{ width: 32, height: 32 }}
+                                />
+                            </div>
+                            <span className="font-bold text-white text-sm tracking-tight">
+                                Cyber Community <span className="text-white/40">Pakistan</span>
+                            </span>
+                        </Link>
 
-          {/* Social / Terminal Glyph Shortcuts */}
-          <div className="flex items-center gap-4 text-[#8a8a93]/70">
-            <a
-              href="https://github.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-[#f8f9fa] transition-colors"
-            >
-              <LuGithub className="w-4 h-4" />
-            </a>
-            <a
-              href="#secure"
-              className="hover:text-[#f8f9fa] transition-colors"
-            >
-              <LuLock className="w-4 h-4" />
-            </a>
-            <div className="flex items-center gap-0.5 font-bold hover:text-[#f8f9fa] text-xs transition-colors cursor-pointer">
-              <LuTerminal className="w-4 h-4" />
-              <span className="-mt-1 text-[10px]">_</span>
+                        <p className="text-white/40 text-xs leading-relaxed max-w-xs font-light">
+                            Pakistan&apos;s premier cybersecurity community dedicated to fostering
+                            innovation, security awareness, and technical expertise across the
+                            digital landscape.
+                        </p>
+
+                        {/* Social Icons */}
+                        <div className="flex items-center gap-4 pt-2">
+                            <a
+                                href="https://github.com"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-white/30 hover:text-white transition-colors duration-300"
+                            >
+                                <LuGithub className="w-4 h-4" />
+                            </a>
+                            <a
+                                href="#secure"
+                                className="text-white/30 hover:text-white transition-colors duration-300"
+                            >
+                                <LuLock className="w-4 h-4" />
+                            </a>
+                            <div className="flex items-center gap-0.5 text-white/30 hover:text-white transition-colors duration-300 cursor-pointer">
+                                <LuTerminal className="w-4 h-4" />
+                                <span className="text-[10px] font-bold">_</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Resources Column */}
+                    <div className="md:col-span-3 space-y-3">
+                        <h4 className="text-white/50 text-[10px] font-bold uppercase tracking-[0.2em]">
+                            Resources
+                        </h4>
+                        <ul className="space-y-2">
+                            {resourceLinks.map((link) => (
+                                <li key={link.name}>
+                                    <Link
+                                        href={link.href}
+                                        className="text-white/40 hover:text-white text-xs transition-colors duration-300 block"
+                                    >
+                                        {link.name}
+                                    </Link>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+
+                    {/* Community Column */}
+                    <div className="md:col-span-2 space-y-3">
+                        <h4 className="text-white/50 text-[10px] font-bold uppercase tracking-[0.2em]">
+                            Community
+                        </h4>
+                        <ul className="space-y-2">
+                            {communityLinks.map((link) => (
+                                <li key={link.name}>
+                                    <Link
+                                        href={link.href}
+                                        className="text-white/40 hover:text-white text-xs transition-colors duration-300 block"
+                                    >
+                                        {link.name}
+                                    </Link>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+
+                    {/* Contact & Legal Column */}
+                    <div className="md:col-span-3 space-y-4">
+                        <h4 className="text-white/50 text-[10px] font-bold uppercase tracking-[0.2em]">
+                            Connect
+                        </h4>
+
+                        <div className="bg-white/5 border border-white/10 rounded-lg p-3">
+                            <div className="flex items-center justify-between">
+                                <span className="text-white/30 text-[10px] tracking-wider">
+                                    Spurvance Labs
+                                </span>
+                                <a
+                                    href="https://spurvancelabs.com"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-white/40 hover:text-white transition-colors duration-300"
+                                >
+                                    <LuArrowUpRight className="w-4 h-4" />
+                                </a>
+                            </div>
+                            <p className="text-white/20 text-[9px] mt-1 tracking-wider">
+                                Open source IT company
+                            </p>
+                        </div>
+
+                        <div className="text-white/20 text-[10px] leading-relaxed space-y-0.5 pt-2 border-t border-white/5">
+                            <p>© 2026 Cyber Community Pakistan.</p>
+                            <p>All rights reserved. Secure transmission active.</p>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
-        </div>
-
-        {/* Middle Column: Links */}
-        <div className="space-y-4 md:col-span-4">
-          <h4 className="font-bold text-[#f8f9fa] text-[11px] uppercase tracking-widest">
-            Resources
-          </h4>
-          <ul className="space-y-2.5 text-xs">
-            {resourceLinks.map((link) => (
-              <li key={link.name}>
-                <Link
-                  href={link.href}
-                  className="block opacity-80 hover:opacity-100 hover:text-[#f8f9fa] transition-colors duration-150"
-                >
-                  {link.name}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        {/* Right Column: Contact & Copyright */}
-        <div className="space-y-4 md:col-span-4">
-          <h4 className="font-bold text-[#f8f9fa] text-[11px] uppercase tracking-widest">
-            Contact & Verify
-          </h4>
-
-          <div className="space-y-2">
-            <span className="block font-bold text-[#8a8a93]/60 text-[10px] uppercase tracking-wider">
-              Main Company Web
-            </span>
-            {/* Main Company Web */}
-            <div className="flex bg-[#050507] p-3 border border-[#22222b] overflow-x-auto font-bold text-[#f8f9fa] text-[10px] tracking-wider whitespace-nowrap select-all items-center justify-center gap-1">
-              Spurvance Labs - An open source IT related company
-              <span
-                className="text-[#8a8a93]/60 hover:text-[#f8f9fa] transition-colors cursor-pointer"
-                onClick={() =>
-                  window.open("https://spurvancelabs.com", "_blank")
-                }
-              >
-                <CgArrowRight size={20} />
-              </span>
-            </div>
-          </div>
-
-          <div className="space-y-0.5 pt-2 text-[#8a8a93]/50 text-[10px] leading-relaxed">
-            <p>© 2026 Cyber Community Pakistan.</p>
-            <p>All rights reserved. Secure transmission active.</p>
-          </div>
-        </div>
-      </div>
-    </footer>
-  );
+        </footer>
+    );
 }

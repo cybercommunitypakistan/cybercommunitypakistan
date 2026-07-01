@@ -54,4 +54,5 @@ jobs:
           local-dir: deploy/
           server-dir: /
           dangerous-clean-slate: true
+          security: strict          # ✅ This forces TLS encryption (explicit FTPS)
           log-level: verbose   # ✅ Shows detailed FTP logs

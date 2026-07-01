@@ -1,10 +1,3 @@
-name: Deploy Next.js via FTP
-
-on:
-  push:
-    branches:
-      - main
-
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -30,8 +23,9 @@ jobs:
       - name: Build Next.js app
         run: pnpm build
 
-      - name: Export static site
-        run: pnpm exec next export
+      # ❌ REMOVE this entire step:
+      # - name: Export static site
+      #   run: pnpm exec next export
 
       - name: Prepare deploy folder
         run: |

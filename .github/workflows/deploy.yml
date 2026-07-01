@@ -1,3 +1,10 @@
+name: Deploy Next.js via FTP
+
+on:
+  push:
+    branches:
+      - main
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -23,7 +30,7 @@ jobs:
       - name: Build Next.js app
         run: pnpm build
 
-      # 🔍 DEBUG: Show what was built
+      # 🔍 Debug: Show what was built
       - name: List build output
         run: |
           echo "Files in 'out/' directory:"
@@ -33,7 +40,6 @@ jobs:
         run: |
           rm -rf deploy
           mkdir -p deploy
-          # Safer copy: handles empty folders and hidden files
           cp -r out/. deploy/
           echo "Files in 'deploy/' directory:"
           ls -la deploy/
@@ -48,3 +54,4 @@ jobs:
           local-dir: deploy/
           server-dir: /
           dangerous-clean-slate: true
+          log-level: verbose   # ✅ Shows detailed FTP logs

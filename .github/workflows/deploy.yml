@@ -1,0 +1,59 @@
+name: Deploy Next.js via FTP (pnpm)
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Enable Corepack (pnpm)
+        run: corepack enable
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build Next.js app
+        run: pnpm build
+
+      # Optional: only needed if you're doing static export
+      - name: Export static site (if using next export)
+        run: pnpm run export || true
+
+      - name: Prepare deploy folder
+        run: |
+          mkdir -p deploy
+
+          if [ -d "out" ]; then
+            cp -R out/* deploy/
+          elif [ -d ".next" ]; then
+            cp -R .next deploy/
+            cp -R public deploy/
+            cp package.json deploy/
+          else
+            echo "No build output found"
+            exit 1
+          fi
+
+      - name: Deploy via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_HOST }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          port: ${{ secrets.FTP_PORT || 21 }}
+          local-dir: deploy/
+          server-dir: /
+          dangerous-clean-slate: true

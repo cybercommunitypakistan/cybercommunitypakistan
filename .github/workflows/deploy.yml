@@ -19,7 +19,7 @@ jobs:
           node-version: 20
           cache: pnpm
 
-      - name: Enable Corepack + pnpm
+      - name: Enable Corepack and pnpm
         run: |
           corepack enable
           corepack prepare pnpm@10.0.0 --activate
@@ -28,7 +28,7 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Build Next.js static export
+      - name: Build Next.js app
         run: pnpm build
 
       - name: Export static site
@@ -48,5 +48,5 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           port: ${{ secrets.FTP_PORT }}
           local-dir: deploy/
-          server-dir: /public_html/subdomain/
+          server-dir: /
           dangerous-clean-slate: true

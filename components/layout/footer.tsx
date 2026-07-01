@@ -17,11 +17,11 @@ import {
 const socialLinks = [
     { name: "GitHub", href: "https://github.com/cybercommunitypakistan", icon: SiGithub },
     // { name: "LinkedIn", href: "https://linkedin.com/showcase/cybercommunitypakistan", icon: SiLinkedin },
-    { name: "Discord", href: "#", icon: SiDiscord },
-    { name: "Instagram", href: "#", icon: SiInstagram },
-    { name: "WhatsApp", href: "#", icon: SiWhatsapp },
-    { name: "Threads", href: "#", icon: SiThreads },
-    { name: "YouTube", href: "#", icon: SiYoutube },
+    { name: "Discord", href: "https://discord.gg/cybercommunitypakistan", icon: SiDiscord },
+    { name: "Instagram", href: "https://instagram.com/cybercommunitypakistan", icon: SiInstagram },
+    { name: "WhatsApp", href: "https://whatsapp.com/channel/0029VbBOsFL96H4LmUFRHz3b", icon: SiWhatsapp },
+    { name: "Threads", href: "https://threads.com/cybercommunitypakistan", icon: SiThreads },
+    { name: "YouTube", href: "https://youtube.com/cybercommunitypakistan", icon: SiYoutube },
 ];
 
 const resourceLinks = [
@@ -90,7 +90,7 @@ export default function Footer() {
 
                     {/* Link columns */}
                     <div className="lg:col-span-4 grid grid-cols-2 gap-8">
-                        <div>
+                        {/* <div>
                             <h4 className="font-mono text-white/35 text-[10px] uppercase tracking-[0.2em] mb-4">
                                 Resources
                             </h4>
@@ -106,7 +106,7 @@ export default function Footer() {
                                     </li>
                                 ))}
                             </ul>
-                        </div>
+                        </div> */}
                         <div>
                             <h4 className="font-mono text-white/35 text-[10px] uppercase tracking-[0.2em] mb-4">
                                 Community
@@ -132,10 +132,10 @@ export default function Footer() {
                             Connect
                         </h4>
                         <a
-                            href="mailto:hello@cybercommunitypakistan.com"
+                            href="mailto:ccp@spurvancelabs.com"
                             className="text-white/50 hover:text-white text-sm transition-colors duration-300 block mb-5"
                         >
-                            hello@cybercommunitypakistan.com
+                            ccp@spurvancelabs.com
                         </a>
 
                         <a
@@ -163,7 +163,13 @@ export default function Footer() {
                         © {new Date().getFullYear()} CYBER COMMUNITY PAKISTAN. ALL RIGHTS RESERVED.
                     </p>
                     <p className="font-mono text-[10px] tracking-[0.15em] text-white/25">
-                        LAHORE · KARACHI · ISLAMABAD
+                        This Website is currently in beta. Please report any issues to{" "}
+                        <a
+                            href="mailto:info@spurvancelabs.com"
+                            className="text-white/50 hover:text-white transition-colors duration-300"
+                        >
+                            info@spurvancelabs.com
+                        </a>
                     </p>
                 </div>
             </div>

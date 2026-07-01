@@ -7,24 +7,10 @@ import { LuArrowRight } from "react-icons/lu";
 const events = [
     {
         id: 1,
-        date: "Jul 15",
+        date: "July 11",
         year: "2026",
-        title: "Cyber Threat Intelligence Workshop",
+        title: "Introduction to Cybersecurity & Roadmap",
         description: "Learn how to collect, analyze, and act on threat intelligence to protect your organization.",
-    },
-    {
-        id: 2,
-        date: "Jul 28",
-        year: "2026",
-        title: "Ethical Hacking Live Demo",
-        description: "Watch live penetration testing on a sandbox environment and discover real-world vulnerabilities.",
-    },
-    {
-        id: 3,
-        date: "Aug 5",
-        year: "2026",
-        title: "Open Source Security Tools Hackathon",
-        description: "Collaborate to build and improve open-source security tools for the community.",
     },
 ];
 

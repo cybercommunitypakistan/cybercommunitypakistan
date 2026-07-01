@@ -207,10 +207,10 @@ const Navbar = () => {
                                                 CONTACT
                                             </p>
                                             <a
-                                                href="mailto:hello@cybercommunitypakistan.com"
+                                                href="mailto:ccp@spurvancelabs.com"
                                                 className="font-mono text-sm text-white/70 hover:text-white transition-colors"
                                             >
-                                                hello@cybercommunitypakistan.com
+                                                ccp@spurvancelabs.com
                                             </a>
                                         </div>
                                         <div>
@@ -218,16 +218,16 @@ const Navbar = () => {
                                                 ELSEWHERE
                                             </p>
                                             <div className="flex gap-5 font-mono text-xs text-white/60">
-                                                <a href="#" className="hover:text-white transition-colors">
-                                                    X
+                                                <a href="https://instagram.com/cybercommunitypakistan" className="hover:text-white transition-colors">
+                                                    Instagram
                                                 </a>
-                                                <a href="#" className="hover:text-white transition-colors">
+                                                <a href="https://discord.gg/cybercommunitypakistan" className="hover:text-white transition-colors">
                                                     Discord
                                                 </a>
-                                                <a href="#" className="hover:text-white transition-colors">
+                                                <a href="https://github.com/cybercommunitypakistan" className="hover:text-white transition-colors">
                                                     GitHub
                                                 </a>
-                                                <a href="#" className="hover:text-white transition-colors">
+                                                <a href="https://www.linkedin.com/showcase/cybercommunitypakistan" className="hover:text-white transition-colors">
                                                     LinkedIn
                                                 </a>
                                             </div>
@@ -244,7 +244,7 @@ const Navbar = () => {
                                 className="mt-10 pt-5 border-t border-white/[0.08] flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between"
                             >
                                 <p className="font-mono text-[10px] tracking-[0.15em] text-white/30">
-                                    LAHORE · KARACHI · ISLAMABAD
+                                    Site Under Development
                                 </p>
                                 <p className="font-mono text-[10px] tracking-[0.15em] text-white/30">
                                     © {new Date().getFullYear()} CYBER COMMUNITY PAKISTAN

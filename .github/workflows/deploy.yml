@@ -23,9 +23,6 @@ jobs:
       - name: Build Next.js app
         run: pnpm build
 
-      # ❌ REMOVE this entire step:
-      # - name: Export static site
-      #   run: pnpm exec next export
 
       - name: Prepare deploy folder
         run: |

@@ -1,4 +1,4 @@
-name: Deploy Next.js via FTP (pnpm)
+name: Deploy Next.js via FTP
 
 on:
   push:
@@ -17,13 +17,13 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: pnpm
+          cache: npm
 
-      - name: Enable Corepack and pnpm
-        run: |
-          corepack enable
-          corepack prepare pnpm@10.0.0 --activate
-          pnpm -v
+      - name: Install pnpm globally
+        run: npm install -g pnpm@10
+
+      - name: Verify pnpm
+        run: pnpm -v
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -48,5 +48,5 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           port: ${{ secrets.FTP_PORT }}
           local-dir: deploy/
-          server-dir: /
+          server-dir: /public_html/subdomain/
           dangerous-clean-slate: true

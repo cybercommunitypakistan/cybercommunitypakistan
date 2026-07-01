@@ -16,40 +16,29 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 24
+          node-version: 20
           cache: pnpm
 
-      - name: Enable Corepack (pnpm)
+      - name: Enable Corepack + pnpm
         run: |
           corepack enable
-          corepack prepare pnpm@latest --activate
-
-      - name: Verify pnpm
-        run: pnpm -v
+          corepack prepare pnpm@10.0.0 --activate
+          pnpm -v
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Build Next.js app
+      - name: Build Next.js static export
         run: pnpm build
 
-      - name: Export static site (optional)
-        run: pnpm run export || true
+      - name: Export static site
+        run: pnpm exec next export
 
       - name: Prepare deploy folder
         run: |
-          mkdir -p deploy
-
-          if [ -d "out" ]; then
-            cp -R out/* deploy/
-          elif [ -d ".next" ]; then
-            cp -R .next deploy/
-            cp -R public deploy/
-            cp package.json deploy/
-          else
-            echo "No build output found"
-            exit 1
-          fi
+          rm -rf deploy
+          mkdir deploy
+          cp -R out/* deploy/
 
       - name: Deploy via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
@@ -57,7 +46,7 @@ jobs:
           server: ${{ secrets.FTP_HOST }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          port: ${{ secrets.FTP_PORT || 21 }}
+          port: ${{ secrets.FTP_PORT }}
           local-dir: deploy/
-          server-dir: /
+          server-dir: /public_html/subdomain/
           dangerous-clean-slate: true

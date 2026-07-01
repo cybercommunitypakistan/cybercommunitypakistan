@@ -1,12 +1,12 @@
-import HeroSection from "@/components/Home/hero";
-import EventsSection from "@/components/Home/events";
-import MissionSection from "@/components/Home/mission";
-import WhatWeDoSection from "@/components/Home/whatwedo";
-import ResearchSection from "@/components/Home/research";
-import CommunityValuesSection from "@/components/Home/communityvalues";
-import WhyJoinSection from "@/components/Home/whyjoin";
-import FAQSection from "@/components/Home/faq";
-import FinalCTASection from "@/components/Home/cta";
+import HeroSection from "@/components/pages/Home/hero";
+import EventsSection from "@/components/pages/Home/events";
+import MissionSection from "@/components/pages/Home/mission";
+import WhatWeDoSection from "@/components/pages/Home/whatwedo";
+import ResearchSection from "@/components/pages/Home/research";
+import CommunityValuesSection from "@/components/pages/Home/communityvalues";
+import WhyJoinSection from "@/components/pages/Home/whyjoin";
+import FAQSection from "@/components/pages/Home/faq";
+import FinalCTASection from "@/components/pages/Home/cta";
 
 export const metadata = {
     title: "Cyber Community Pakistan | Cybersecurity Research, CTFs & Ethical Hacking",

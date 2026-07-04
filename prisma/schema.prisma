@@ -1,0 +1,62 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model FormField {
+  id          String    @id @default(uuid())
+  formType    String
+  label       String
+  name        String
+  type        FieldType
+  placeholder String?
+  helpText    String?
+  required    Boolean   @default(false)
+  order       Int       @default(0)
+  isActive    Boolean   @default(true)
+  options     Json?
+  validation  Json?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@unique([formType, name])
+  @@index([formType, order])
+}
+
+enum FieldType {
+  TEXT
+  EMAIL
+  TEL
+  NUMBER
+  DATE
+  URL
+  TEXTAREA
+  SELECT
+  MULTISELECT
+  RADIO
+  CHECKBOX
+  FILE
+}
+
+model FormSubmission {
+  id         String           @id @default(uuid())
+  formType   String
+  data       Json
+  status     SubmissionStatus @default(PENDING)
+  reviewedBy String?
+  reviewedAt DateTime?
+  notes      String?
+  createdAt  DateTime         @default(now())
+
+  @@index([formType, status])
+}
+
+enum SubmissionStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}

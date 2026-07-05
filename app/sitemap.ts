@@ -18,5 +18,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
       url: "https://ccp.spurvancelabs.com/community",
       priority: 0.8,
     },
+    {
+      url: "https://ccp.spurvancelabs.com/volunteer",
+      priority: 0.8,
+    },
+    {
+      url: "https://ccp.spurvancelabs.com/partnership",
+      priority: 0.8,
+    },
   ];
 }

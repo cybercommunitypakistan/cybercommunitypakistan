@@ -3,7 +3,7 @@ import Reveal from "@/components/Reveal";
 
 export default function VolunteerLandingPage() {
   return (
-    <main className="min-h-screen bg-[var(--color-bg-main)] text-[var(--color-foreground-main)]">
+    <main className="min-h-screen bg-black text-[var(--color-foreground-main)]">
       {/* Hero */}
       <section className="max-w-3xl mx-auto px-6 pt-32 pb-20">
         <span
@@ -11,7 +11,6 @@ export default function VolunteerLandingPage() {
           style={{ animationDelay: "0ms" }}
         >
           JOIN THE MISSION
-          <span className="cursor-blink h-3" />
         </span>
 
         <h1
@@ -25,13 +24,16 @@ export default function VolunteerLandingPage() {
           className="text-lg text-[var(--color-accent-muted)] leading-relaxed max-w-xl animate-fade-in-up"
           style={{ animationDelay: "160ms" }}
         >
-          We&rsquo;re a community of defenders, researchers, and builders working to
-          make Pakistan&rsquo;s digital infrastructure safer. Volunteers run our
-          workshops, write our research, moderate our channels, and mentor the
-          next generation of ethical hackers.
+          We&rsquo;re a community of defenders, researchers, and builders
+          working to make Pakistan&rsquo;s digital infrastructure safer.
+          Volunteers run our workshops, write our research, moderate our
+          channels, and mentor the next generation of ethical hackers.
         </p>
 
-        <div className="mt-10 animate-fade-in-up" style={{ animationDelay: "240ms" }}>
+        <div
+          className="mt-10 animate-fade-in-up"
+          style={{ animationDelay: "240ms" }}
+        >
           <Link
             href="/volunteer/join"
             className="inline-block bg-[var(--color-accent-main)] text-black font-mono text-sm font-semibold px-7 py-3 rounded-full transition-all duration-200 hover:opacity-90 hover:scale-[1.03] hover:shadow-[0_0_24px_rgba(0,255,102,0.25)]"
@@ -75,7 +77,9 @@ export default function VolunteerLandingPage() {
               <Reveal key={card.title} delay={i * 80}>
                 <div className="terminal-card rounded-xl p-6 transition-all duration-300 hover:border-[var(--color-terminal-blue)]/50 hover:-translate-y-1 hover:shadow-[0_0_30px_rgba(0,210,255,0.08)]">
                   <h3 className="font-semibold mb-2">{card.title}</h3>
-                  <p className="text-sm text-[var(--color-accent-muted)]">{card.body}</p>
+                  <p className="text-sm text-[var(--color-accent-muted)]">
+                    {card.body}
+                  </p>
                 </div>
               </Reveal>
             ))}

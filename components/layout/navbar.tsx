@@ -10,8 +10,9 @@ const NAV_LINKS = [
     { id: "01", name: "Home", href: "/" },
     { id: "02", name: "Events", href: "/events" },
     { id: "03", name: "Research", href: "/research-papers" },
-    { id: "04", name: "Community", href: "/community" },
-    { id: "05", name: "About", href: "/about" },
+    { id: "04", name: "Volunteer", href: "/volunteer" },
+    { id: "05", name: "Community", href: "/community" },
+    { id: "06", name: "About", href: "/about" },
 ];
 
 const Navbar = () => {

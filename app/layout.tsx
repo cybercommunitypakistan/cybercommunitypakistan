@@ -4,6 +4,7 @@ import "./globals.css";
 
 import Navbar from "@/components/layout/navbar";
 import Footer from "@/components/layout/footer";
+import ToastProvider from "@/components/ToastProvider";
 
 
 
@@ -47,6 +48,7 @@ export default function RootLayout({
         <Navbar />
         {children}
         <Footer />
+        <ToastProvider />
       </body>
     </html>
   );

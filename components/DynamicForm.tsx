@@ -1,29 +1,151 @@
 "use client";
 
 import { useState } from "react";
+import toast from "react-hot-toast";
 import { PublicFormField } from "@/types/form";
 import { uploadFile } from "@/lib/uploadFile";
-import { submitVolunteerForm } from "@/actions/volunteer";
+import type { SubmitResult } from "@/actions/form";
 
-export default function VolunteerForm({
-  fields,
-}: {
+interface DynamicFormProps {
   fields: PublicFormField[];
-}) {
+  onSubmit: (data: Record<string, any>) => Promise<SubmitResult>;
+  submitLabel?: string;
+}
+
+type FieldValidation = {
+  allowedTypes?: string[];
+  maxSizeMB?: number;
+  minLength?: number;
+  maxLength?: number;
+  pattern?: string;
+  patternMessage?: string;
+  min?: number;
+  max?: number;
+};
+
+function getValidation(field: PublicFormField): FieldValidation | undefined {
+  return (field as PublicFormField & { validation?: FieldValidation }).validation;
+}
+
+function validateField(field: PublicFormField, value: any): string | null {
+  const validation = getValidation(field);
+  const isEmpty =
+    value === undefined ||
+    value === null ||
+    value === "" ||
+    (Array.isArray(value) && value.length === 0);
+
+  if (field.required && isEmpty) {
+    return "This field is required";
+  }
+
+  if (isEmpty) return null;
+
+  if (typeof value === "string") {
+    if (field.type === "EMAIL" || /email/i.test(field.name)) {
+      const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRe.test(value)) return "Enter a valid email address";
+    }
+
+    if (validation?.minLength && value.length < validation.minLength) {
+      return `Must be at least ${validation.minLength} characters`;
+    }
+    if (validation?.maxLength && value.length > validation.maxLength) {
+      return `Must be at most ${validation.maxLength} characters`;
+    }
+    if (validation?.pattern) {
+      try {
+        const re = new RegExp(validation.pattern);
+        if (!re.test(value)) {
+          return validation.patternMessage ?? "Invalid format";
+        }
+      } catch {
+      }
+    }
+  }
+
+  if (typeof value === "number") {
+    if (validation?.min !== undefined && value < validation.min) {
+      return `Must be at least ${validation.min}`;
+    }
+    if (validation?.max !== undefined && value > validation.max) {
+      return `Must be at most ${validation.max}`;
+    }
+  }
+
+  if (field.type === "FILE" && value instanceof File) {
+    if (validation?.allowedTypes && validation.allowedTypes.length > 0) {
+      const matches = validation.allowedTypes.some((t) => {
+        if (t.startsWith(".")) return value.name.toLowerCase().endsWith(t.toLowerCase());
+        if (t.endsWith("/*")) return value.type.startsWith(t.replace("/*", ""));
+        return value.type === t;
+      });
+      if (!matches) return "File type not allowed";
+    }
+    if (validation?.maxSizeMB && value.size > validation.maxSizeMB * 1024 * 1024) {
+      return `File must be smaller than ${validation.maxSizeMB}MB`;
+    }
+  }
+
+  return null;
+}
+
+function validateAll(fields: PublicFormField[], data: Record<string, any>) {
+  const errors: Record<string, string> = {};
+  for (const field of fields) {
+    const message = validateField(field, data[field.name]);
+    if (message) errors[field.name] = message;
+  }
+  return errors;
+}
+
+export default function DynamicForm({
+  fields,
+  onSubmit,
+  submitLabel = "Submit Application",
+}: DynamicFormProps) {
   const [formData, setFormData] = useState<Record<string, any>>({});
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [touched, setTouched] = useState<Record<string, boolean>>({});
   const [status, setStatus] = useState<
     "idle" | "submitting" | "success" | "error"
   >("idle");
+  const [formKey, setFormKey] = useState(0);
 
-  function handleChange(name: string, value: any) {
-    setFormData((prev) => ({ ...prev, [name]: value }));
+  function handleChange(field: PublicFormField, value: any) {
+    setFormData((prev) => {
+      const next = { ...prev, [field.name]: value };
+      setTouched((t) => ({ ...t, [field.name]: true }));
+      const message = validateField(field, value);
+      setErrors((prevErrors) => {
+        const nextErrors = { ...prevErrors };
+        if (message) {
+          nextErrors[field.name] = message;
+        } else {
+          delete nextErrors[field.name];
+        }
+        return nextErrors;
+      });
+      return next;
+    });
   }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+
+    const allTouched: Record<string, boolean> = {};
+    for (const field of fields) allTouched[field.name] = true;
+    setTouched(allTouched);
+
+    const clientErrors = validateAll(fields, formData);
+    setErrors(clientErrors);
+
+    if (Object.keys(clientErrors).length > 0) {
+      toast.error("Please fix the errors below.");
+      return;
+    }
+
     setStatus("submitting");
-    setErrors({});
 
     try {
       const finalData: Record<string, any> = { ...formData };
@@ -35,65 +157,39 @@ export default function VolunteerForm({
         }
       }
 
-      const result = await submitVolunteerForm(finalData);
+      const result = await onSubmit(finalData);
 
       if (result.success) {
+        toast.success(
+          "Your form has been submitted, we will contact you shortly",
+        );
         setStatus("success");
+        setFormData({});
+        setErrors({});
+        setTouched({});
+        setFormKey((k) => k + 1);
       } else {
         setStatus("error");
+
         if (result.fieldErrors) {
           const flat: Record<string, string> = {};
           for (const [key, msgs] of Object.entries(result.fieldErrors)) {
             flat[key] = msgs[0];
           }
           setErrors(flat);
+          toast.error(result.error ?? "Please fix the errors below.");
         } else {
-          setErrors({ general: result.error });
+          toast.error(result.error ?? "Something went wrong.");
         }
       }
     } catch (err: any) {
       setStatus("error");
-      setErrors({
-        general: err.message ?? "Something went wrong. Please try again.",
-      });
+      toast.error(err.message ?? "Something went wrong. Please try again.");
     }
   }
 
-  if (status === "success") {
-    const lines = [
-      "> validating submission...  OK",
-      "> writing to queue...  OK",
-      "> application received",
-    ];
-
-    return (
-      <div className="terminal-card rounded-xl p-8">
-        <div className="font-mono text-sm space-y-2 mb-6">
-          {lines.map((line, i) => (
-            <p
-              key={line}
-              className="text-[var(--color-terminal-green)] opacity-0"
-              style={{
-                animation: `typeLine 0.4s ease forwards`,
-                animationDelay: `${i * 220}ms`,
-              }}
-            >
-              {line}
-            </p>
-          ))}
-        </div>
-        <h2 className="text-xl font-semibold mb-2">
-          You&rsquo;re in the queue.
-        </h2>
-        <p className="text-[var(--color-accent-muted)] text-sm">
-          We&rsquo;ll review your application and reach out within a week.
-        </p>
-      </div>
-    );
-  }
-
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
+    <form key={formKey} onSubmit={handleSubmit} className="space-y-6">
       <input
         type="text"
         name="_honeypot"
@@ -112,15 +208,15 @@ export default function VolunteerForm({
           </label>
 
           {renderInput(field, formData[field.name], (v) =>
-            handleChange(field.name, v),
+            handleChange(field, v),
           )}
 
-          {field.helpText && (
+          {field.helpText && !errors[field.name] && (
             <p className="text-xs text-[var(--color-accent-muted)] mt-1">
               {field.helpText}
             </p>
           )}
-          {errors[field.name] && (
+          {touched[field.name] && errors[field.name] && (
             <p className="text-xs text-[var(--color-terminal-amber)] mt-1">
               {errors[field.name]}
             </p>
@@ -128,20 +224,12 @@ export default function VolunteerForm({
         </div>
       ))}
 
-      {/* Add the I'm not a Robot Validation here */}
-
-      {errors.general && (
-        <p className="text-sm text-[var(--color-terminal-amber)]">
-          {errors.general}
-        </p>
-      )}
-
       <button
         type="submit"
         disabled={status === "submitting"}
         className="w-full sm:w-auto bg-[var(--color-accent-main)] text-black font-mono text-sm font-semibold px-7 py-3 rounded-full hover:opacity-90 transition disabled:opacity-50"
       >
-        {status === "submitting" ? "Submitting..." : "Submit Application"}
+        {status === "submitting" ? "Submitting..." : submitLabel}
       </button>
     </form>
   );
@@ -162,6 +250,7 @@ function renderInput(
           required={field.required}
           placeholder={field.placeholder ?? undefined}
           rows={4}
+          value={value ?? ""}
           className={baseClasses}
           onChange={(e) => onChange(e.target.value)}
         />
@@ -172,7 +261,7 @@ function renderInput(
         <select
           required={field.required}
           className={baseClasses}
-          defaultValue=""
+          value={value ?? ""}
           onChange={(e) => onChange(e.target.value)}
         >
           <option value="" disabled>
@@ -260,6 +349,7 @@ function renderInput(
         <label className="flex items-center gap-2 text-sm text-[var(--color-accent-muted)]">
           <input
             type="checkbox"
+            checked={!!value}
             required={field.required}
             onChange={(e) => onChange(e.target.checked)}
             className="accent-[var(--color-terminal-green)]"
@@ -269,14 +359,7 @@ function renderInput(
       );
 
     case "FILE": {
-      const validation = (
-        field as PublicFormField & {
-          validation?: {
-            allowedTypes?: string[];
-            maxSizeMB?: number;
-          };
-        }
-      ).validation;
+      const validation = getValidation(field);
 
       return (
         <input
@@ -286,12 +369,15 @@ function renderInput(
           className="w-full text-sm text-[var(--color-accent-muted)] file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:bg-[var(--color-accent-main)] file:text-black file:text-sm file:font-mono file:cursor-pointer"
           onChange={(e) => {
             const file = e.target.files?.[0];
-            if (!file) return;
+            if (!file) {
+              onChange(undefined);
+              return;
+            }
 
             const maxSizeMB = validation?.maxSizeMB;
             if (maxSizeMB && file.size > maxSizeMB * 1024 * 1024) {
-              alert(`File must be smaller than ${maxSizeMB}MB`);
               e.target.value = "";
+              onChange(undefined);
               return;
             }
 
@@ -307,6 +393,7 @@ function renderInput(
           type={field.type.toLowerCase()}
           required={field.required}
           placeholder={field.placeholder ?? undefined}
+          value={value ?? ""}
           className={baseClasses}
           onChange={(e) => onChange(e.target.value)}
         />

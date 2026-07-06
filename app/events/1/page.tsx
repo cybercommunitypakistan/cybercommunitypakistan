@@ -15,10 +15,51 @@ import {
 } from "react-icons/lu";
 import { SiWhatsapp } from "react-icons/si";
 
+// TODO: replace with your real WhatsApp community invite link
 const WHATSAPP_LINK = "https://chat.whatsapp.com/C5j42mXyy9A7quJK19XDo3";
 
-// ✅ Receive the event as a prop instead of fetching it via useParams
-export default function EventDetailClient({ event }: { event: any }) {
+const eventsData = [
+    {
+        id: 1,
+        title: "Introduction to Cybersecurity & Roadmap",
+        date: "July 11, 2026",
+        time: "10:00 AM - 12:00 PM PKT",
+        location: "Online (Zoom)",
+        category: "Workshop",
+        spots: 50,
+        description:
+            "This session is designed for absolute beginners and enthusiasts looking to understand the fundamentals of cybersecurity. We will cover what cybersecurity is, why it's important, the different domains within the field, and provide a step-by-step roadmap to start a successful career in cybersecurity.",
+        agenda: [
+            "What is Cybersecurity? (The Basics)",
+            "The Cyber Threat Landscape (Real-world examples)",
+            "Domains in Cybersecurity (Network, App, Cloud, GRC)",
+            "Certifications and Learning Paths",
+            "Interactive Q&A Session",
+        ],
+        speaker: "Cyber Community Pakistan Team",
+    },
+];
+
+export default function EventDetailPage() {
+    const event = {
+    title: "Introduction to Cybersecurity & Roadmap",
+    date: "July 11, 2026",
+    time: "8:00 PM – 9:00 PM PKT",
+    location: "Online (Zoom)",
+    category: "Workshop",
+    spots: 50,
+    description:
+        "This session is designed for absolute beginners and enthusiasts looking to understand the fundamentals of cybersecurity...",
+    agenda: [
+        "What is Cybersecurity? (The Basics)",
+        "The Cyber Threat Landscape",
+        "Domains in Cybersecurity",
+        "Certifications and Learning Paths",
+        "Interactive Q&A Session",
+    ],
+    speaker: "Cyber Community Pakistan Team",
+};
+
     const [formData, setFormData] = useState({
         name: "",
         email: "",
@@ -71,7 +112,6 @@ export default function EventDetailClient({ event }: { event: any }) {
         }
     };
 
-    // ✅ Fallback if event is not found (passed from parent)
     if (!event) {
         return (
             <section className="relative min-h-screen bg-black flex items-center justify-center px-4">
@@ -140,7 +180,7 @@ export default function EventDetailClient({ event }: { event: any }) {
                         <div className="space-y-4">
                             <h2 className="text-white text-xl font-bold tracking-tight">Agenda</h2>
                             <ul className="space-y-3">
-                                {event.agenda.map((item: string, index: number) => (
+                                {event.agenda.map((item, index) => (
                                     <li key={index} className="flex items-start gap-3 text-white/60 text-sm font-light">
                                         <span className="text-white/30 font-mono text-xs mt-0.5 shrink-0">
                                             {String(index + 1).padStart(2, "0")}
@@ -157,7 +197,7 @@ export default function EventDetailClient({ event }: { event: any }) {
                         </div>
                     </div>
 
-                    {/* Right: Registration form (unchanged) */}
+                    {/* Right: Registration form */}
                     <div className="lg:col-span-1">
                         <div className="border border-white/12 rounded-2xl p-6 md:p-8 sticky top-24">
                             {status === "success" ? (

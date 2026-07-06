@@ -256,13 +256,13 @@ export default function Hero() {
                             }}
                             className="absolute inset-0 flex items-center justify-center"
                         >
-                            <Image
+                            <img
                                 src={current.image}
                                 alt={current.alt}
                                 width={635}
                                 height={940}
                                 className="object-contain object-right w-auto h-full"
-                                priority={currentSlide === 0}
+                                // priority={currentSlide === 0}
                                 sizes="(max-width: 1024px) 100vw, 50vw"
                             />
                         </motion.div>
@@ -280,12 +280,12 @@ export default function Hero() {
                             transition={{ duration: 0.8 }}
                             className="relative w-full h-full"
                         >
-                            <Image
+                            <img
                                 src={current.image}
                                 alt={current.alt}
-                                fill
+                                // fill
                                 className="object-cover"
-                                priority={currentSlide === 0}
+                                // priority={currentSlide === 0}
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-transparent"></div>
                         </motion.div>

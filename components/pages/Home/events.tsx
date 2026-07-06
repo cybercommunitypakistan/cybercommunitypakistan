@@ -10,7 +10,7 @@ const events = [
         date: "July 11",
         year: "2026",
         title: "Introduction to Cybersecurity & Roadmap",
-        description: "Learn how to collect, analyze, and act on threat intelligence to protect your organization.",
+        description: "Introductory session for beginners to understand the fundamentals of cybersecurity and how to start building a career in it.",
     },
 ];
 

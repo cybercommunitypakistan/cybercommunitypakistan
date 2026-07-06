@@ -2,6 +2,7 @@
 
 import React from "react";
 import { motion } from "framer-motion";
+import Link from "next/link";
 
 const benefits = [
     "Learn from professionals and industry experts",
@@ -51,12 +52,12 @@ export default function WhyJoinSection() {
                 </div>
 
                 <div className="mt-12">
-                    <a
-                        href="#join"
+                    <Link
+                        href="/join"
                         className="inline-block bg-white text-black px-8 py-3 rounded-full font-mono text-sm font-semibold tracking-wider hover:shadow-[0_0_40px_rgba(255,255,255,0.1)] transition-all duration-300 hover:scale-105"
                     >
                         Join Us Today
-                    </a>
+                    </Link>
                 </div>
             </div>
         </section>

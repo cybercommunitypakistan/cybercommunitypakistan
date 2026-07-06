@@ -64,13 +64,13 @@ const Navbar = () => {
                     <Link href="/" className="flex items-center gap-3 group shrink-0">
                         <div className="relative flex items-center justify-center w-9 h-9 md:w-10 md:h-10">
                             <div className="absolute inset-0 border border-white/15 rounded-full group-hover:border-white/40 transition-all duration-300" />
-                            <Image
+                            <img
                                 src="/logo.png"
                                 alt="Cyber Community Pakistan"
                                 className="invert"
                                 width={32}
                                 height={32}
-                                priority
+                                
                                 style={{ width: 32, height: 32 }}
                             />
                         </div>

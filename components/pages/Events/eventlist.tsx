@@ -9,7 +9,7 @@ const event = {
     description:
         "A session designed for absolute beginners and enthusiasts looking to understand the fundamentals of cybersecurity — what it is, why it matters, and how to start building a career in it.",
     date: "July 11, 2026",
-    time: "10:00 AM – 12:00 PM PKT",
+    time: "8:00 PM – 9:00 PM PKT",
     location: "Online (Zoom)",
     category: "Workshop",
     spots: 50,
@@ -63,7 +63,7 @@ export default function EventsListSection() {
                     </div>
 
                     <Link
-                        href={`/events/${event.id}`}
+                        href={`/events/1`}
                         className="inline-flex items-center justify-center bg-white text-black font-mono text-sm font-semibold tracking-wider px-8 py-3 rounded-full transition-all duration-300 hover:shadow-[0_0_30px_rgba(255,255,255,0.15)] hover:scale-105"
                     >
                         Register Now

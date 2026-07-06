@@ -111,7 +111,7 @@ export default function FAQSection() {
                             Still have questions? Reach out to us anytime.
                         </p>
                         <a
-                            href="mailto:hello@cybercommunity.pk"
+                            href="mailto:ccp@spurvancelabs.com"
                             className="inline-flex items-center gap-2 text-white/60 hover:text-white font-mono text-sm transition-colors duration-300 border border-white/10 hover:border-white/30 rounded-full px-6 py-3"
                         >
                             Contact Us

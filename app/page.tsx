@@ -98,7 +98,7 @@ export default function Page() {
 
             {/* RESEARCH */}
             <section id="research" aria-label="Research Section">
-                <ResearchSection />
+                {/* <ResearchSection /> */}
             </section>
 
             {/* VALUES */}
